@@ -1,6 +1,6 @@
 # 🐄 Calculadora de Nutrição Bovina
 
-Ferramenta desenvolvida em Python para calcular a necessidade diária de matéria seca e o custo de alimentação de bovinos, com base no peso e categoria do animal.
+Ferramenta desenvolvida em Python para calcular a necessidade diária de matéria seca e o custo de alimentação de bovinos, com base no peso e categoria do animal. Suporta seleção de um ou dois ingredientes, com balanceamento automático de proteína pelo método do Quadrado de Pearson.
 
 ## 💡 Motivação
 
@@ -10,8 +10,12 @@ Projeto desenvolvido para unir conhecimento em Medicina Veterinária com program
 
 - Seleção de categoria animal (bezerro, novilha, vaca em lactação, vaca seca, touro)
 - Cálculo da necessidade diária de matéria seca com base no peso vivo
-- Estimativa de custo diário e mensal por tipo de alimento
-- Alerta automático quando o alimento não atende à exigência proteica mínima da categoria
+- Suporte a **1 ou 2 ingredientes** por cálculo
+- Balanceamento automático de proteína pelo **Quadrado de Pearson** quando dois ingredientes são combinados
+- Seleção automática do ingrediente mais econômico quando ambos atendem à exigência proteica
+- Fallback automático para o ingrediente mais proteico quando nenhum atende à exigência mínima
+- Estimativa de custo diário e mensal
+- Alerta quando a dieta não atinge a exigência proteica mínima da categoria
 
 ## 🐾 Categorias suportadas
 
@@ -25,11 +29,25 @@ Projeto desenvolvido para unir conhecimento em Medicina Veterinária com program
 
 ## 🌾 Alimentos disponíveis
 
-- Milho grão
-- Farelo de soja
-- Silagem de milho
-- Feno de tifton
-- Capim-elefante
+| Alimento | Proteína (%) | Preço (R$/kg) |
+|---|---|---|
+| Milho grão | 8,5% | R$ 1,20 |
+| Farelo de soja | 45,0% | R$ 3,50 |
+| Silagem de milho | 7,0% | R$ 0,35 |
+| Feno de tifton | 10,0% | R$ 1,80 |
+| Capim-elefante | 9,0% | R$ 0,25 |
+
+## 🔬 Método: Quadrado de Pearson
+
+Quando dois ingredientes são selecionados com proteínas em lados opostos da exigência mínima, o programa utiliza o **Quadrado de Pearson** para calcular as proporções exatas de cada um, garantindo que a mistura atinja precisamente o nível proteico necessário.
+
+```
+     45% (farelo de soja)
+          \    → 18 - 7 = 11 partes de farelo
+    18%    ×
+          /    → 45 - 18 = 27 partes de silagem
+      7% (silagem de milho)
+```
 
 ## 🚀 Como usar
 
@@ -49,37 +67,51 @@ python calculadora.py
 ## 📋 Exemplo de uso
 
 ```
-==========================================
+=============================================
   🐄 CALCULADORA DE NUTRIÇÃO BOVINA
   Desenvolvido por: Davi Matos Rodrigues
-==========================================
+=============================================
 
+=============================================
+  CATEGORIA DO ANIMAL
+=============================================
   [1] Bezerro (até 6 meses)
   [2] Novilha (7-18 meses)
   [3] Vaca em lactação
   [4] Vaca seca
   [5] Touro
-
+=============================================
   Escolha a categoria: 3
+
   Informe o peso do animal (kg): 550
 
+=============================================
+  TIPO DE ALIMENTO
+=============================================
   [1] Milho grão
   [2] Farelo de soja
-  ...
+  [3] Silagem de milho
+  [4] Feno de tifton
+  [5] Capim-elefante
+  [0] Finalizar seleção
+=============================================
+  Escolha o alimento: 2
+  Escolha o alimento: 3
 
-==========================================
+=============================================
   RESULTADO DO CÁLCULO
-==========================================
+=============================================
   Animal     : Vaca em lactação
   Peso       : 550.0 kg
-  Alimento   : Farelo de soja
-==========================================
+=============================================
   Matéria seca/dia : 19.25 kg
-  Custo diário     : R$ 67.38
-  Custo mensal     : R$ 2021.25
-==========================================
+  Custo diário     : R$ 24.29
+  Custo mensal     : R$ 728.71
+  Peso de Farelo de soja : KG 5.57
+  Peso de Silagem de milho : KG 13.68
+=============================================
   ✅ Atende à exigência proteica mínima
-==========================================
+=============================================
 ```
 
 ## 🛠️ Tecnologias
@@ -90,6 +122,7 @@ python calculadora.py
 
 - Nutrient Requirements of Beef Cattle — NRC
 - Tabelas de exigências nutricionais para bovinos — Embrapa
+- Método do Quadrado de Pearson para balanceamento de rações
 
 ## 👨‍💻 Autor
 
