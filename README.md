@@ -8,6 +8,7 @@ Projeto desenvolvido para unir conhecimento em Medicina Veterinária com program
 
 ## ⚙️ Funcionalidades
 
+- Histórico automático de cálculos salvo em CSV para consulta posterior
 - Seleção de categoria animal (bezerro, novilha, vaca em lactação, vaca seca, touro)
 - Cálculo da necessidade diária de matéria seca com base no peso vivo
 - Suporte a **1 ou 2 ingredientes** por cálculo
@@ -16,6 +17,7 @@ Projeto desenvolvido para unir conhecimento em Medicina Veterinária com program
 - Fallback automático para o ingrediente mais proteico quando nenhum atende à exigência mínima
 - Estimativa de custo diário e mensal
 - Alerta quando a dieta não atinge a exigência proteica mínima da categoria
+- Registro de dados (data, categoria, peso, ingrediente 1, Kg ingrediente 1, ingrediente 2, Kg ingrediente 2, matéria seca/dia, custo diário, custo mensal e atende proteína) como nova linha no arquivo "arquivo.csv"
 
 ## 🐾 Categorias suportadas
 
@@ -59,6 +61,9 @@ git clone https://github.com/dmrodrigues-dev/calculadora-nutricao-bovina.git
 
 # Acesse a pasta
 cd calculadora-nutricao-bovina
+
+# Instale as bibliotecas do requirements.txt
+pip install -r requirements.txt
 
 # Execute o programa
 python calculadora.py
@@ -116,7 +121,8 @@ python calculadora.py
 
 ## 🛠️ Tecnologias
 
-- Python 3 (sem dependências externas)
+- Python 3
+- Biblioteca pandas
 
 ## 📚 Referências técnicas
 

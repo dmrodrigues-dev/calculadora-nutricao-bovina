@@ -2,6 +2,10 @@
 # Autor: Davi Matos Rodrigues
 # GitHub: github.com/dmrodrigues-dev
 
+import pandas as pd
+import os
+from datetime import date
+
 CATEGORIAS = {
     "1": {"nome": "Bezerro (até 6 meses)", "percentual_ms": 0.03, "proteina_min": 16},
     "2": {"nome": "Novilha (7-18 meses)", "percentual_ms": 0.025, "proteina_min": 14},
@@ -18,6 +22,25 @@ INGREDIENTES = {
     "5": {"nome": "Capim-elefante", "proteina": 9.0, "preco_kg": 0.25},
     "0": {"nome": "Finalizar seleção"}
 }
+
+def arq_existe(nome_arquivo):
+    if os.path.exists(nome_arquivo):
+        print('Histórico encontrado.')
+    else:
+        print('Histórico não encontrado, criando arquivo...')
+        df = pd.DataFrame(columns=['data',
+                                   'categoria',
+                                   'peso',
+                                   'ingrediente 1',
+                                   'Kg ingrediente 1',
+                                   'ingrediente 2',
+                                   'Kg ingrediente 2',
+                                   'matéria seca/dia',
+                                   'custo diário',
+                                   'custo mensal',
+                                   'atende proteína'])
+        df.to_csv(nome_arquivo, index=False)
+        print(f'Histórico criado em {nome_arquivo}')
 
 
 def exibir_menu(titulo, opcoes):
@@ -95,8 +118,8 @@ def calcular(peso, categoria, ingredientes):
         "custo_diario": custo_diario,
         "custo_mensal": custo_mensal,
         "atende_proteina": atende_proteina,
-        "pesos": peso_ing
-    }
+        "pesos": peso_ing,
+            }
 
 
 def calcular_dois_ingredientes(necessidade_ms, necessidade_proteina, ing_alto, ing_baixo, categoria):
@@ -115,6 +138,27 @@ def calcular_dois_ingredientes(necessidade_ms, necessidade_proteina, ing_alto, i
                 {"nome": ing_baixo["nome"],
                  "peso": ing_baixo_kg}]
     }
+
+
+def montar_dados(categoria, peso, resultado):
+    return {
+            'data': date.today().strftime("%d/%m/%Y"),
+            'categoria': categoria['nome'],
+            'peso': peso,
+            'ingrediente 1': resultado['pesos'][0]['nome'],
+            'Kg ingrediente 1': f'{resultado['pesos'][0]['peso']:.2f}',
+            'ingrediente 2': resultado['pesos'][1]['nome'] if len(resultado['pesos']) > 1 else None,
+            'Kg ingrediente 2': f'{resultado['pesos'][1]['peso']:.2f}' if len(resultado['pesos']) > 1 else None,
+            'matéria seca/dia': f'{resultado['necessidade_ms']:.2f}',
+            'custo diário': f'{resultado['custo_diario']:.2f}',
+            'custo mensal': f'{resultado['custo_mensal']:.2f}',
+            'atende proteína': resultado['atende_proteina']
+            }
+
+
+def novo_registro(nome_arquivo, dados):
+    nova_linha = pd.DataFrame([dados])
+    nova_linha.to_csv(nome_arquivo,mode='a', header=False, index=False)
 
 
 def exibir_resultado(peso, categoria, resultado):
@@ -147,6 +191,7 @@ def main():
     print("  🐄 CALCULADORA DE NUTRIÇÃO BOVINA")
     print("  Desenvolvido por: Davi Matos Rodrigues")
     print("="*45)
+    arq_existe('arquivo.csv')
 
     while True:
         exibir_menu("CATEGORIA DO ANIMAL", CATEGORIAS)
@@ -170,6 +215,8 @@ def main():
         selec_ing = [INGREDIENTES[i] for i in selec_ing_index]
         resultado = calcular(peso, categoria, selec_ing)
         exibir_resultado(peso, categoria, resultado)
+        dados_montados = montar_dados(categoria, peso, resultado)
+        novo_registro('arquivo.csv', dados_montados)
 
         continuar = input("  Deseja calcular novamente? (s/n): ").strip().lower()
         if continuar != "s":
