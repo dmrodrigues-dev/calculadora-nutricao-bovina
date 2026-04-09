@@ -9,9 +9,11 @@ Projeto desenvolvido para unir conhecimento em Medicina Veterinária com program
 ## ⚙️ Funcionalidades
 
 - Histórico automático de cálculos salvo em CSV para consulta posterior
+- Banco de ingredientes salvo em CSV com 5 ingredientes padrões
 - Seleção de categoria animal (bezerro, novilha, vaca em lactação, vaca seca, touro)
 - Cálculo da necessidade diária de matéria seca com base no peso vivo
 - Suporte a **1 ou 2 ingredientes** por cálculo
+- Possibilidade de cadastro de novos ingredientes no banco de ingredientes 
 - Balanceamento automático de proteína pelo **Quadrado de Pearson** quando dois ingredientes são combinados
 - Seleção automática do ingrediente mais econômico quando ambos atendem à exigência proteica
 - Fallback automático para o ingrediente mais proteico quando nenhum atende à exigência mínima
@@ -29,7 +31,7 @@ Projeto desenvolvido para unir conhecimento em Medicina Veterinária com program
 | Vaca seca | 2,0% | 12% |
 | Touro | 2,2% | 13% |
 
-## 🌾 Alimentos disponíveis
+## 🌾 Alimentos padrões
 
 | Alimento | Proteína (%) | Preço (R$/kg) |
 |---|---|---|
@@ -76,6 +78,10 @@ python calculadora.py
   🐄 CALCULADORA DE NUTRIÇÃO BOVINA
   Desenvolvido por: Davi Matos Rodrigues
 =============================================
+arquivo.csv não encontrado, criando arquivo...
+Arquivo criado em arquivo.csv
+ingredientes.csv não encontrado, criando arquivo...
+Arquivo criado em ingredientes.csv
 
 =============================================
   CATEGORIA DO ANIMAL
@@ -98,7 +104,8 @@ python calculadora.py
   [3] Silagem de milho
   [4] Feno de tifton
   [5] Capim-elefante
-  [0] Finalizar seleção
+  [+] Adicionar Opção
+  [x] Terminar seleção
 =============================================
   Escolha o alimento: 2
   Escolha o alimento: 3
@@ -117,6 +124,10 @@ python calculadora.py
 =============================================
   ✅ Atende à exigência proteica mínima
 =============================================
+
+  Deseja calcular novamente? (s/n): n
+
+  Até logo! 🐄
 ```
 
 ## 🛠️ Tecnologias
