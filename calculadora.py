@@ -7,57 +7,67 @@ import os
 from datetime import date
 
 CATEGORIAS = {
-    "1": {"nome": "Bezerro (até 6 meses)", "percentual_ms": 0.03, "proteina_min": 16},
-    "2": {"nome": "Novilha (7-18 meses)", "percentual_ms": 0.025, "proteina_min": 14},
-    "3": {"nome": "Vaca em lactação", "percentual_ms": 0.035, "proteina_min": 18},
-    "4": {"nome": "Vaca seca", "percentual_ms": 0.02, "proteina_min": 12},
-    "5": {"nome": "Touro", "percentual_ms": 0.022, "proteina_min": 13},
+    0: {"nome": "Bezerro (até 6 meses)", "percentual_ms": 0.03, "proteina_min": 16},
+    1: {"nome": "Novilha (7-18 meses)", "percentual_ms": 0.025, "proteina_min": 14},
+    2: {"nome": "Vaca em lactação", "percentual_ms": 0.035, "proteina_min": 18},
+    3: {"nome": "Vaca seca", "percentual_ms": 0.02, "proteina_min": 12},
+    4: {"nome": "Touro", "percentual_ms": 0.022, "proteina_min": 13},
 }
 
-INGREDIENTES = {
-    "1": {"nome": "Milho grão", "proteina": 8.5, "preco_kg": 1.20},
-    "2": {"nome": "Farelo de soja", "proteina": 45.0, "preco_kg": 3.50},
-    "3": {"nome": "Silagem de milho", "proteina": 7.0, "preco_kg": 0.35},
-    "4": {"nome": "Feno de tifton", "proteina": 10.0, "preco_kg": 1.80},
-    "5": {"nome": "Capim-elefante", "proteina": 9.0, "preco_kg": 0.25},
-    "0": {"nome": "Finalizar seleção"}
-}
+COLUNAS_HISTORICO = ['data',
+                     'categoria',
+                     'peso',
+                     'ingrediente 1',
+                     'Kg ingrediente 1',
+                     'ingrediente 2',
+                     'Kg ingrediente 2',
+                     'matéria seca/dia',
+                     'custo diário',
+                     'custo mensal',
+                     'atende proteína']
 
-def arq_existe(nome_arquivo):
+COLUNAS_INGREDIENTES = ['nome',
+                        'proteina',
+                        'preco_kg']
+
+def arq_existe(nome_arquivo, colunas, default=False):
     if os.path.exists(nome_arquivo):
-        print('Histórico encontrado.')
+        print(f'{nome_arquivo} encontrado.')
     else:
-        print('Histórico não encontrado, criando arquivo...')
-        df = pd.DataFrame(columns=['data',
-                                   'categoria',
-                                   'peso',
-                                   'ingrediente 1',
-                                   'Kg ingrediente 1',
-                                   'ingrediente 2',
-                                   'Kg ingrediente 2',
-                                   'matéria seca/dia',
-                                   'custo diário',
-                                   'custo mensal',
-                                   'atende proteína'])
+        print(f'{nome_arquivo} não encontrado, criando arquivo...')
+        df = pd.DataFrame(columns=colunas)
         df.to_csv(nome_arquivo, index=False)
-        print(f'Histórico criado em {nome_arquivo}')
+        if default:
+            for i in [{"nome": "Milho grão", "proteina": 8.5, "preco_kg": 1.20},
+                      {"nome": "Farelo de soja", "proteina": 45.0, "preco_kg": 3.50},
+                      {"nome": "Silagem de milho", "proteina": 7.0, "preco_kg": 0.35},
+                      {"nome": "Feno de tifton", "proteina": 10.0, "preco_kg": 1.80},
+                      {"nome": "Capim-elefante", "proteina": 9.0, "preco_kg": 0.25},]:
+                novo_registro(nome_arquivo, i)
+        print(f'Arquivo criado em {nome_arquivo}')
 
 
-def exibir_menu(titulo, opcoes):
+def exibir_menu(titulo, opcoes, saida=False):
     print(f"\n{'='*45}")
     print(f"  {titulo}")
     print(f"{'='*45}")
     for chave, valor in opcoes.items():
         nome = valor["nome"]
-        print(f"  [{chave}] {nome}")
+        print(f"  [{chave+1}] {nome}")
+    if saida:
+        print(f'  [+] Adicionar Opção')
+        print(f'  [x] Terminar seleção')
     print(f"{'='*45}")
 
 
-def obter_opcao(opcoes, mensagem):
+def obter_opcao(opcoes, mensagem, saida=False):
     while True:
         escolha = input(mensagem).strip()
-        if escolha in opcoes:
+        if saida and escolha in ['+','x']:
             return escolha
+        elif escolha.isdigit():
+            if int(escolha)-1 in opcoes:
+                return int(escolha)-1
         print("  ⚠ Opção inválida. Tente novamente.")
 
 
@@ -156,6 +166,31 @@ def montar_dados(categoria, peso, resultado):
             }
 
 
+def receber_ing():
+    retorno = {'nome': input('  Nome - '),
+               'proteina': float(input('  Proteína - ')),
+               'preco_kg': float(input('  Preço do Kg - ')),}
+    return retorno
+
+
+def selecionar_ing(ingredientes):
+    selec_ing = []
+    while len(selec_ing) < 2:
+        chave_ing = obter_opcao(ingredientes, "  Escolha o alimento: ", True)
+        if chave_ing == '+':
+            novo_ing = receber_ing()
+            novo_registro("ingredientes.csv", novo_ing)
+            return None
+        elif chave_ing == "x":
+            if selec_ing != []:
+                break
+        elif chave_ing in selec_ing:
+            continue
+        else:
+            selec_ing.append(chave_ing)
+    return selec_ing
+
+
 def novo_registro(nome_arquivo, dados):
     nova_linha = pd.DataFrame([dados])
     nova_linha.to_csv(nome_arquivo,mode='a', header=False, index=False)
@@ -191,28 +226,25 @@ def main():
     print("  🐄 CALCULADORA DE NUTRIÇÃO BOVINA")
     print("  Desenvolvido por: Davi Matos Rodrigues")
     print("="*45)
-    arq_existe('arquivo.csv')
+    arq_existe('arquivo.csv', COLUNAS_HISTORICO)
+    arq_existe('ingredientes.csv', COLUNAS_INGREDIENTES, True)
+
 
     while True:
+        ing_df = pd.read_csv('ingredientes.csv')
+        INGREDIENTES = dict(ing_df.iterrows())
+
         exibir_menu("CATEGORIA DO ANIMAL", CATEGORIAS)
         chave_cat = obter_opcao(CATEGORIAS, "  Escolha a categoria: ")
         categoria = CATEGORIAS[chave_cat]
-
         peso = obter_peso()
 
-        exibir_menu("TIPO DE ALIMENTO", INGREDIENTES)
-        selec_ing_index = []
-        while len(selec_ing_index) < 2:
-            chave_ing = obter_opcao(INGREDIENTES, "  Escolha o alimento: ")
-            if chave_ing == "0":
-                if selec_ing_index != []:
-                    break
-            elif chave_ing in selec_ing_index:
-                continue
-            else:
-                selec_ing_index.append(chave_ing)
+        exibir_menu("TIPO DE ALIMENTO", INGREDIENTES, True)
+        selec_ing_index = selecionar_ing(INGREDIENTES)
+        if not selec_ing_index:
+            continue
 
-        selec_ing = [INGREDIENTES[i] for i in selec_ing_index]
+        selec_ing = [INGREDIENTES[int(i)] for i in selec_ing_index]
         resultado = calcular(peso, categoria, selec_ing)
         exibir_resultado(peso, categoria, resultado)
         dados_montados = montar_dados(categoria, peso, resultado)
