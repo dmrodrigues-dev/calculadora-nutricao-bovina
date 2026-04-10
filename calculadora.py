@@ -6,6 +6,14 @@ import pandas as pd
 import os
 from datetime import date
 
+MENU = {
+    0: {'nome': 'Calcular Ração'},
+    1: {'nome': 'Consultar Histórico'},
+    2: {'nome': 'Cadastrar novo ingrediente'},
+    3: {'nome': 'Sair'}
+
+}
+
 CATEGORIAS = {
     0: {"nome": "Bezerro (até 6 meses)", "percentual_ms": 0.03, "proteina_min": 16},
     1: {"nome": "Novilha (7-18 meses)", "percentual_ms": 0.025, "proteina_min": 14},
@@ -55,15 +63,14 @@ def exibir_menu(titulo, opcoes, saida=False):
         nome = valor["nome"]
         print(f"  [{chave+1}] {nome}")
     if saida:
-        print(f'  [+] Adicionar Opção')
         print(f'  [x] Terminar seleção')
     print(f"{'='*45}")
 
 
-def obter_opcao(opcoes, mensagem, saida=False):
+def obter_opcao(opcoes, mensagem):
     while True:
         escolha = input(mensagem).strip()
-        if saida and escolha in ['+','x']:
+        if escolha == 'x':
             return escolha
         elif escolha.isdigit():
             if int(escolha)-1 in opcoes:
@@ -71,18 +78,16 @@ def obter_opcao(opcoes, mensagem, saida=False):
         print("  ⚠ Opção inválida. Tente novamente.")
 
 
-def obter_peso():
+def validar_float(texto, minimo, maximo):
     while True:
         try:
-            peso = float(input("\n  Informe o peso do animal (kg): ").strip())
-            if peso <= 0:
-                print("  ⚠ O peso deve ser maior que zero.")
-            elif peso > 1500:
-                print("  ⚠ Peso muito alto. Verifique o valor informado.")
+            dado = float(input(f"  {texto}: ").strip())
+            if minimo <= dado <= maximo:
+                return dado
             else:
-                return peso
+                print('  Dado fora do intervalo aceito!')
         except ValueError:
-            print("  ⚠ Digite apenas números (ex: 450 ou 450.5).")
+            print("  Digite apenas números (ex: 450 ou 450.5).")
 
 
 def calcular(peso, categoria, ingredientes):
@@ -168,20 +173,16 @@ def montar_dados(categoria, peso, resultado):
 
 def receber_ing():
     retorno = {'nome': input('  Nome - '),
-               'proteina': float(input('  Proteína - ')),
-               'preco_kg': float(input('  Preço do Kg - ')),}
+               'proteina': validar_float('Proteína', 0, 100),
+               'preco_kg': validar_float('Preço do Kg ', 0, 500)}
     return retorno
 
 
 def selecionar_ing(ingredientes):
     selec_ing = []
     while len(selec_ing) < 2:
-        chave_ing = obter_opcao(ingredientes, "  Escolha o alimento: ", True)
-        if chave_ing == '+':
-            novo_ing = receber_ing()
-            novo_registro("ingredientes.csv", novo_ing)
-            return None
-        elif chave_ing == "x":
+        chave_ing = obter_opcao(ingredientes, "  Escolha o alimento: ")
+        if chave_ing == "x":
             if selec_ing != []:
                 break
         elif chave_ing in selec_ing:
@@ -221,6 +222,24 @@ def exibir_resultado(peso, categoria, resultado):
     print(f"{'='*45}\n")
 
 
+def exibir_racoes():
+    rac_df = pd.read_csv('arquivo.csv')
+    registros = dict(rac_df.iterrows())
+    if not registros:
+        print('  Não há rações salvas no histórico.')
+        return
+    for i in registros:
+        racao = registros[i]
+        for j in racao.keys():
+            racao[j] = str(racao[j])
+        print(f'  {racao['data']} | {racao['categoria'].ljust(21,' ')} | {racao["peso"].ljust(5,' ')} Kg | '
+              f'{racao["ingrediente 1"].ljust(16,' ')} | {racao['Kg ingrediente 1'].ljust(5,' ')} Kg | '
+              f'{racao['ingrediente 2'].ljust(16,' ')} | {racao['Kg ingrediente 2'].ljust(5,' ')} Kg | '
+              f'{racao['matéria seca/dia'].ljust(5,' ')} Kg/dia | R$ {racao['custo diário'].ljust(6,' ')}/dia | '
+              f'R$ {racao['custo mensal'].ljust(6,' ')}/mês | '
+              f'{('Atende proteína' if racao['atende proteína'] else 'Não atende proteína').ljust(19,' ')}')
+
+
 def main():
     print("\n" + "="*45)
     print("  🐄 CALCULADORA DE NUTRIÇÃO BOVINA")
@@ -234,25 +253,43 @@ def main():
         ing_df = pd.read_csv('ingredientes.csv')
         INGREDIENTES = dict(ing_df.iterrows())
 
-        exibir_menu("CATEGORIA DO ANIMAL", CATEGORIAS)
-        chave_cat = obter_opcao(CATEGORIAS, "  Escolha a categoria: ")
-        categoria = CATEGORIAS[chave_cat]
-        peso = obter_peso()
+        exibir_menu("MENU PRINCIPAL", MENU)
+        chave_menu = obter_opcao(MENU, '  Escolha uma opção: ')
+        if chave_menu == 0:
 
-        exibir_menu("TIPO DE ALIMENTO", INGREDIENTES, True)
-        selec_ing_index = selecionar_ing(INGREDIENTES)
-        if not selec_ing_index:
-            continue
+            exibir_menu("CATEGORIA DO ANIMAL", CATEGORIAS)
+            chave_cat = obter_opcao(CATEGORIAS, "  Escolha a categoria: ")
+            categoria = CATEGORIAS[chave_cat]
+            peso = validar_float('Informe o peso do animal (kg)',0, 1500)
 
-        selec_ing = [INGREDIENTES[int(i)] for i in selec_ing_index]
-        resultado = calcular(peso, categoria, selec_ing)
-        exibir_resultado(peso, categoria, resultado)
-        dados_montados = montar_dados(categoria, peso, resultado)
-        novo_registro('arquivo.csv', dados_montados)
+            exibir_menu("TIPO DE ALIMENTO", INGREDIENTES, True)
+            selec_ing_index = selecionar_ing(INGREDIENTES)
 
-        continuar = input("  Deseja calcular novamente? (s/n): ").strip().lower()
-        if continuar != "s":
-            print("\n  Até logo! 🐄\n")
+            selec_ing = [INGREDIENTES[int(i)] for i in selec_ing_index]
+            resultado = calcular(peso, categoria, selec_ing)
+            exibir_resultado(peso, categoria, resultado)
+            dados_montados = montar_dados(categoria, peso, resultado)
+            novo_registro('arquivo.csv', dados_montados)
+
+            input("  Pressione qualquer tecla para continuar: ")
+
+        elif chave_menu == 1:
+            print("\n" + "="*45)
+            print('  Exibir Histórico')
+            print("=" * 45)
+            exibir_racoes()
+
+        elif chave_menu == 2:
+            print("\n" + "="*45)
+            print('  Cadastrar ingrediente')
+            print("=" * 45)
+            novo_ing = receber_ing()
+            novo_registro('ingredientes.csv', novo_ing)
+
+        elif chave_menu == 3:
+            print("\n" + "="*45)
+            print('  Fechando programa...')
+            print("=" * 45)
             break
 
 
