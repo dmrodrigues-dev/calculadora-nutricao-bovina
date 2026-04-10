@@ -9,11 +9,12 @@ Projeto desenvolvido para unir conhecimento em Medicina Veterinária com program
 ## ⚙️ Funcionalidades
 
 - Histórico automático de cálculos salvo em CSV para consulta posterior
+- Consulta de histórico pelo menu principal
+- Possibilidade de cadastro de novos ingredientes no banco de ingredientes
 - Banco de ingredientes salvo em CSV com 5 ingredientes padrões
 - Seleção de categoria animal (bezerro, novilha, vaca em lactação, vaca seca, touro)
 - Cálculo da necessidade diária de matéria seca com base no peso vivo
 - Suporte a **1 ou 2 ingredientes** por cálculo
-- Possibilidade de cadastro de novos ingredientes no banco de ingredientes 
 - Balanceamento automático de proteína pelo **Quadrado de Pearson** quando dois ingredientes são combinados
 - Seleção automática do ingrediente mais econômico quando ambos atendem à exigência proteica
 - Fallback automático para o ingrediente mais proteico quando nenhum atende à exigência mínima
@@ -84,6 +85,16 @@ ingredientes.csv não encontrado, criando arquivo...
 Arquivo criado em ingredientes.csv
 
 =============================================
+  MENU PRINCIPAL
+=============================================
+  [1] Calcular Ração
+  [2] Consultar Histórico
+  [3] Cadastrar novo ingrediente
+  [4] Sair
+=============================================
+  Escolha uma opção: 1
+
+=============================================
   CATEGORIA DO ANIMAL
 =============================================
   [1] Bezerro (até 6 meses)
@@ -93,8 +104,7 @@ Arquivo criado em ingredientes.csv
   [5] Touro
 =============================================
   Escolha a categoria: 3
-
-  Informe o peso do animal (kg): 550
+  Informe o peso do animal (kg): 400
 
 =============================================
   TIPO DE ALIMENTO
@@ -104,30 +114,41 @@ Arquivo criado em ingredientes.csv
   [3] Silagem de milho
   [4] Feno de tifton
   [5] Capim-elefante
-  [+] Adicionar Opção
   [x] Terminar seleção
 =============================================
+  Escolha o alimento: 1
   Escolha o alimento: 2
-  Escolha o alimento: 3
 
 =============================================
   RESULTADO DO CÁLCULO
 =============================================
   Animal     : Vaca em lactação
-  Peso       : 550.0 kg
+  Peso       : 400.0 kg
 =============================================
-  Matéria seca/dia : 19.25 kg
-  Custo diário     : R$ 24.29
-  Custo mensal     : R$ 728.71
-  Peso de Farelo de soja : KG 5.57
-  Peso de Silagem de milho : KG 13.68
+  Matéria seca/dia : 14.00 kg
+  Custo diário     : R$ 25.18
+  Custo mensal     : R$ 755.42
+  Peso de Farelo de soja : KG 3.64
+  Peso de Milho grão : KG 10.36
 =============================================
   ✅ Atende à exigência proteica mínima
 =============================================
 
-  Deseja calcular novamente? (s/n): n
+  Pressione qualquer tecla para continuar: 
 
-  Até logo! 🐄
+=============================================
+  MENU PRINCIPAL
+=============================================
+  [1] Calcular Ração
+  [2] Consultar Histórico
+  [3] Cadastrar novo ingrediente
+  [4] Sair
+=============================================
+  Escolha uma opção: 4
+
+=============================================
+  Fechando programa...
+=============================================
 ```
 
 ## 🛠️ Tecnologias
@@ -145,7 +166,7 @@ Arquivo criado em ingredientes.csv
 
 **Davi Matos Rodrigues**  
 Estudante de Medicina Veterinária (UFPI) e ADS (Uninter)  
-[GitHub](https://github.com/dmrodrigues-dev) · [LinkedIn](https://linkedin.com/in/seu-perfil)
+[GitHub](https://github.com/dmrodrigues-dev) · [LinkedIn](https://www.linkedin.com/in/davi-matos-rodrigues-057430268/)
 
 ---
 
