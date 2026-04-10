@@ -40,9 +40,9 @@ COLUNAS_INGREDIENTES = ['nome',
 
 def arq_existe(nome_arquivo, colunas, default=False):
     if os.path.exists(nome_arquivo):
-        print(f'{nome_arquivo} encontrado.')
+        print(f'  {nome_arquivo} encontrado.')
     else:
-        print(f'{nome_arquivo} não encontrado, criando arquivo...')
+        print(f'  {nome_arquivo} não encontrado, criando arquivo...')
         df = pd.DataFrame(columns=colunas)
         df.to_csv(nome_arquivo, index=False)
         if default:
@@ -52,7 +52,7 @@ def arq_existe(nome_arquivo, colunas, default=False):
                       {"nome": "Feno de tifton", "proteina": 10.0, "preco_kg": 1.80},
                       {"nome": "Capim-elefante", "proteina": 9.0, "preco_kg": 0.25},]:
                 novo_registro(nome_arquivo, i)
-        print(f'Arquivo criado em {nome_arquivo}')
+        print(f'  Arquivo criado em {nome_arquivo}')
 
 
 def limpar():
@@ -63,14 +63,14 @@ def limpar():
 
 
 def exibir_menu(titulo, opcoes, saida=False):
-    print(f"\n{'='*45}")
-    print(f"  {titulo}")
+    print(f"{'='*45}")
+    print(f"|{titulo.center(43,' ')}|")
     print(f"{'='*45}")
     for chave, valor in opcoes.items():
         nome = valor["nome"]
-        print(f"  [{chave+1}] {nome}")
+        print('|'+f" [{chave+1}] {nome}".ljust(43,' ')+'|')
     if saida:
-        print(f'  [x] Terminar seleção')
+        print('|'+' [x] Terminar seleção'.ljust(43,' ')+'|')
     print(f"{'='*45}")
 
 
@@ -179,7 +179,7 @@ def montar_dados(categoria, peso, resultado):
 
 
 def receber_ing():
-    retorno = {'nome': input('  Nome - '),
+    retorno = {'nome': input('  Nome: '),
                'proteina': validar_float('Proteína', 0, 100),
                'preco_kg': validar_float('Preço do Kg ', 0, 500)}
     return retorno
@@ -206,26 +206,26 @@ def novo_registro(nome_arquivo, dados):
 
 def exibir_resultado(peso, categoria, resultado):
     print(f"\n{'='*45}")
-    print(f"  RESULTADO DO CÁLCULO")
+    print('|'+f"RESULTADO DO CÁLCULO".center(43,' ')+'|')
     print(f"{'='*45}")
-    print(f"  Animal     : {categoria['nome']}")
-    print(f"  Peso       : {peso:.1f} kg")
+    print('|'+f" Animal     : {categoria['nome']}".ljust(43,' ')+'|')
+    print('|'+f" Peso       : {peso:.1f} kg".ljust(43,' ')+'|')
     print(f"{'='*45}")
-    print(f"  Matéria seca/dia : {resultado['necessidade_ms']:.2f} kg")
-    print(f"  Custo diário     : R$ {resultado['custo_diario']:.2f}")
-    print(f"  Custo mensal     : R$ {resultado['custo_mensal']:.2f}")
+    print('|'+f" Matéria seca/dia : {resultado['necessidade_ms']:.2f} kg".ljust(43,' ')+'|')
+    print('|'+f" Custo diário     : R$ {resultado['custo_diario']:.2f}".ljust(43,' ')+'|')
+    print('|'+f" Custo mensal     : R$ {resultado['custo_mensal']:.2f}".ljust(43,' ')+'|')
     for p in resultado["pesos"]:
-        print(f"  Peso de {p['nome']} : KG {p['peso']:.2f}")
+        print('|'+f" Peso de {p['nome']} : KG {p['peso']:.2f}".ljust(43,' ')+'|')
 
     print(f"{'='*45}")
 
     proteina_status = (
-        "✅ Atende à exigência proteica mínima"
+        '|'+"✅ Atende à exigência proteica mínima".center(42,' ')+'|'
         if resultado["atende_proteina"]
-        else f"⚠ ATENÇÃO: Proteína insuficiente!\n"
-             f"  Mínimo recomendado: {categoria['proteina_min']}%"
+        else '|'+f"⚠ ATENÇÃO: Proteína insuficiente!".center(43,' ')+'|' +
+             '\n|'+f"Mínimo recomendado: {categoria['proteina_min']}%".center(43,' ')+'|'
     )
-    print(f"  {proteina_status}")
+    print(proteina_status)
     print(f"{'='*45}\n")
 
 
@@ -240,22 +240,19 @@ def exibir_racoes():
         for j in racao.keys():
             racao[j] = str(racao[j])
         print(f'  {racao['data']} | {racao['categoria'].ljust(21,' ')} | {racao["peso"].ljust(5,' ')} Kg | '
-              f'{racao["ingrediente 1"].ljust(16,' ')} | {racao['Kg ingrediente 1'].ljust(5,' ')} Kg | '
-              f'{racao['ingrediente 2'].ljust(16,' ')} | {racao['Kg ingrediente 2'].ljust(5,' ')} Kg | '
-              f'{racao['matéria seca/dia'].ljust(5,' ')} Kg/dia | R$ {racao['custo diário'].ljust(6,' ')}/dia | '
-              f'R$ {racao['custo mensal'].ljust(6,' ')}/mês | '
+              f'{(racao['Kg ingrediente 1'] + 'Kg de ' + racao["ingrediente 1"]).ljust(27,' ')} | '
+              f'{(racao['Kg ingrediente 2'] + 'Kg de ' + racao["ingrediente 2"]).ljust(27,' ')} | '
+              f'{racao['matéria seca/dia'].ljust(5,' ')} Kg/dia | R$ {racao['custo mensal'].ljust(6,' ')}/mês | '
               f'{('Atende proteína' if racao['atende proteína'] else 'Não atende proteína').ljust(19,' ')}')
 
 
 def main():
     limpar()
-    print("\n" + "="*45)
-    print("  🐄 CALCULADORA DE NUTRIÇÃO BOVINA")
-    print("  Desenvolvido por: Davi Matos Rodrigues")
-    print("="*45)
     arq_existe('arquivo.csv', COLUNAS_HISTORICO)
     arq_existe('ingredientes.csv', COLUNAS_INGREDIENTES, True)
-
+    print("\n" + "="*45)
+    print('|'+"🐄 CALCULADORA DE NUTRIÇÃO BOVINA".center(42,' ')+'|')
+    print('|'+"Desenvolvido por: Davi Matos Rodrigues".center(43,' ')+'|')
 
     while True:
         ing_df = pd.read_csv('ingredientes.csv')
@@ -286,28 +283,29 @@ def main():
             limpar()
 
         elif chave_menu == 1:
-            print("\n" + "="*45)
-            print('  HISTÓRICO')
+            print("="*45)
+            print('|'+'HISTÓRICO'.center(43,' ')+'|')
             print("=" * 45)
             exibir_racoes()
+            print("=" * 45)
             input("  Pressione qualquer tecla para continuar: ")
             limpar()
 
         elif chave_menu == 2:
-            print("\n" + "="*45)
-            print('  CADASTRAR INGREDIENTE')
+            print("="*45)
+            print('|'+'CADASTRAR INGREDIENTE'.center(43,' ')+'|')
             print("=" * 45)
             novo_ing = receber_ing()
             novo_registro('ingredientes.csv', novo_ing)
             print("=" * 45)
-            print('  Ingrediente cadastrado.')
+            print('|'+' Ingrediente cadastrado.'.ljust(43,' ')+'|')
             print("=" * 45)
             input("  Pressione qualquer tecla para continuar: ")
             limpar()
 
         elif chave_menu == 3:
-            print("\n" + "="*45)
-            print('  Fechando programa...')
+            print("="*45)
+            print('|'+' Fechando programa...'.ljust(43,' ')+'|')
             print("=" * 45)
             break
 
