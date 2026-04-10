@@ -55,6 +55,13 @@ def arq_existe(nome_arquivo, colunas, default=False):
         print(f'Arquivo criado em {nome_arquivo}')
 
 
+def limpar():
+    if os.environ.get('TERM'):
+        os.system('cls' if os.name == 'nt' else 'clear')
+    else:
+        pass
+
+
 def exibir_menu(titulo, opcoes, saida=False):
     print(f"\n{'='*45}")
     print(f"  {titulo}")
@@ -255,15 +262,18 @@ def main():
 
         exibir_menu("MENU PRINCIPAL", MENU)
         chave_menu = obter_opcao(MENU, '  Escolha uma opção: ')
+        limpar()
         if chave_menu == 0:
 
             exibir_menu("CATEGORIA DO ANIMAL", CATEGORIAS)
             chave_cat = obter_opcao(CATEGORIAS, "  Escolha a categoria: ")
             categoria = CATEGORIAS[chave_cat]
             peso = validar_float('Informe o peso do animal (kg)',0, 1500)
+            limpar()
 
             exibir_menu("TIPO DE ALIMENTO", INGREDIENTES, True)
             selec_ing_index = selecionar_ing(INGREDIENTES)
+            limpar()
 
             selec_ing = [INGREDIENTES[int(i)] for i in selec_ing_index]
             resultado = calcular(peso, categoria, selec_ing)
@@ -272,19 +282,27 @@ def main():
             novo_registro('arquivo.csv', dados_montados)
 
             input("  Pressione qualquer tecla para continuar: ")
+            limpar()
 
         elif chave_menu == 1:
             print("\n" + "="*45)
-            print('  Exibir Histórico')
+            print('  HISTÓRICO')
             print("=" * 45)
             exibir_racoes()
+            input("  Pressione qualquer tecla para continuar: ")
+            limpar()
 
         elif chave_menu == 2:
             print("\n" + "="*45)
-            print('  Cadastrar ingrediente')
+            print('  CADASTRAR INGREDIENTE')
             print("=" * 45)
             novo_ing = receber_ing()
             novo_registro('ingredientes.csv', novo_ing)
+            print("=" * 45)
+            print('  Ingrediente cadastrado.')
+            print("=" * 45)
+            input("  Pressione qualquer tecla para continuar: ")
+            limpar()
 
         elif chave_menu == 3:
             print("\n" + "="*45)
