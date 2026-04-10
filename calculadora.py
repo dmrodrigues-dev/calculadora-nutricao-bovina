@@ -248,6 +248,7 @@ def exibir_racoes():
 
 
 def main():
+    limpar()
     print("\n" + "="*45)
     print("  🐄 CALCULADORA DE NUTRIÇÃO BOVINA")
     print("  Desenvolvido por: Davi Matos Rodrigues")
