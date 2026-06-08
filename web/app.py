@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
@@ -79,6 +79,12 @@ with app.app_context():
             )
               
     db.session.commit()
+
+
+# Rota raiz
+@app.route('/')
+def raiz():
+    return render_template('index.html')
 
 
 # Rota para recuperar categorias na base de dados
