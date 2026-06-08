@@ -1,0 +1,97 @@
+* {
+    margin: 0 auto;
+    padding: 0;
+}
+
+h1 {
+    background-color: rgb(25, 48, 25);
+    color: white;
+    text-align: center;
+    align-content: center;
+    height: 70px;
+}
+
+table {
+    margin: 20px auto;
+    background-color: rgba(25, 48, 25, 0.5);
+    border-spacing: 10px 10px;
+    border-radius: 10px;
+    width: 1500px;
+}
+
+th, td {
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 110px;
+    height: 30px;
+    text-align: center;
+}
+
+#main-form {
+    margin-top: 20px;
+    width: 1000px;
+    border-radius: 10px;
+    background-color: rgba(25, 48, 25, 0.5);
+    text-align: center;
+    padding: 20px;
+}
+
+#peso {
+    font-size: 20px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+label {
+    margin: 20px 10px;
+    margin-top: 0;
+}
+
+.categoria, .ingredientes {
+    margin-right: 5px;
+}
+
+.main-but {
+    width: 300px;
+    height: 30px;
+    font-size: 16px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-content {
+    background-color: rgb(25, 48, 25);
+    color: white;
+    width: 350px;
+    margin: 100px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h2 {
+    text-align: center;
+    align-content: center;
+    margin-bottom: 20px;
+}
+
+.modal-campos {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.modal-flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.modal-but {
+    width: 150px;
+    font-size: 16px;
+}

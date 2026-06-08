@@ -248,14 +248,14 @@ def exibir_racoes():
 
 def main():
     limpar()
-    arq_existe('arquivo.csv', COLUNAS_HISTORICO)
-    arq_existe('ingredientes.csv', COLUNAS_INGREDIENTES, True)
+    arq_existe('cli/arquivo.csv', COLUNAS_HISTORICO)
+    arq_existe('cli/ingredientes.csv', COLUNAS_INGREDIENTES, True)
     print("\n" + "="*45)
     print('|'+"🐄 CALCULADORA DE NUTRIÇÃO BOVINA".center(42,' ')+'|')
     print('|'+"Desenvolvido por: Davi Matos Rodrigues".center(43,' ')+'|')
 
     while True:
-        ing_df = pd.read_csv('ingredientes.csv')
+        ing_df = pd.read_csv('cli/ingredientes.csv')
         INGREDIENTES = dict(ing_df.iterrows())
 
         exibir_menu("MENU PRINCIPAL", MENU)

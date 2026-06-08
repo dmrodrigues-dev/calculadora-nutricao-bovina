@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Nutrição Bovina</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <h1>Calculadora Nutrição Bovina</h1>
+
+    <form method="post" id="main-form">
+        <input type="number" name="peso" id="peso" placeholder="Insira o peso do animal">
+        <br>
+        <div id="lista-categorias">
+
+        </div>
+        <br>
+        <div id="lista-ingredientes">
+            
+        </div>
+        <br>
+        <input type="button" value="Calcular Ração" onclick="calcular(event)" class="main-but">
+        <input type="button" value="Adicionar Ingrediente" onclick="abrir_modal()" class="main-but">
+    </form>
+
+    <div class="modal" id="modal-ingrediente">
+        <div class="modal-content">
+
+            <h2>Adicionar Ingrediente</h2>
+
+            <form method="post">
+                <input type="text" name="novo-nome" id="novo-nome" placeholder="Nome do ingrediente" class="modal-campos">
+                <br>
+                <input type="number" name="nova-proteina" id="nova-proteina" step="0.1" placeholder="Proteína Bruta (%)" class="modal-campos">
+                <br>
+                <input type="number" name="novo-preco" id="novo-preco" step="0.01" placeholder="Preço por Kg" class="modal-campos">
+                <br>
+
+                <div class="modal-flex">
+                    <input type="button" value="Adicionar" onclick="ingrediente()" class="modal-but">
+                    <input type="button" value="Cancelar" onclick="fechar_modal()" class="modal-but">
+                </div>
+                
+            </form>
+
+        </div>
+    </div>
+
+    <table id="historico">
+    </table>
+
+</body>
+
+<script src="script.js"></script>
+</html>
