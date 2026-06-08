@@ -230,7 +230,7 @@ def exibir_resultado(peso, categoria, resultado):
 
 
 def exibir_racoes():
-    rac_df = pd.read_csv('arquivo.csv')
+    rac_df = pd.read_csv('cli/arquivo.csv')
     registros = dict(rac_df.iterrows())
     if not registros:
         print('  Não há rações salvas no histórico.')
@@ -277,7 +277,7 @@ def main():
             resultado = calcular(peso, categoria, selec_ing)
             exibir_resultado(peso, categoria, resultado)
             dados_montados = montar_dados(categoria, peso, resultado)
-            novo_registro('arquivo.csv', dados_montados)
+            novo_registro('cli/arquivo.csv', dados_montados)
 
             input("  Pressione qualquer tecla para continuar: ")
             limpar()
@@ -296,7 +296,7 @@ def main():
             print('|'+'CADASTRAR INGREDIENTE'.center(43,' ')+'|')
             print("=" * 45)
             novo_ing = receber_ing()
-            novo_registro('ingredientes.csv', novo_ing)
+            novo_registro('cli/ingredientes.csv', novo_ing)
             print("=" * 45)
             print('|'+' Ingrediente cadastrado.'.ljust(43,' ')+'|')
             print("=" * 45)
