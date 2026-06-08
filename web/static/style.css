@@ -95,10 +95,13 @@ label {
     left: 0;
     width: 100%;
     height: 100%;
+    backdrop-filter: blur(4px);
 }
 
 .modal-content {
-    background-color: rgb(25, 48, 25);
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 5px;
     color: white;
     width: 350px;
     margin: 100px auto;
@@ -110,12 +113,15 @@ h2 {
     text-align: center;
     align-content: center;
     margin-bottom: 20px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .modal-campos {
     width: 100%;
     margin-bottom: 10px;
     font-size: 16px;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .modal-flex {
@@ -126,4 +132,14 @@ h2 {
 .modal-but {
     width: 150px;
     font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.modal-but:hover {
+    background-color: rgba(255, 255, 255, 0.15);
 }
