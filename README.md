@@ -1,26 +1,37 @@
 # 🐄 Calculadora de Nutrição Bovina
 
-Ferramenta desenvolvida em Python para calcular a necessidade diária de matéria seca e o custo de alimentação de bovinos, com base no peso e categoria do animal. Suporta seleção de um ou dois ingredientes, com balanceamento automático de proteína pelo método do Quadrado de Pearson.
+Ferramenta completa para calcular a necessidade diária de matéria seca e o custo de alimentação de bovinos, com base no peso e categoria do animal. O projeto evoluiu para uma aplicação full-stack com interface Web, mas também mantém sua clássica versão de Linha de Comando (CLI).
+
+A calculadora suporta a seleção de um ou dois ingredientes, realizando o balanceamento automático de proteína pelo método do **Quadrado de Pearson**.
 
 ## 💡 Motivação
 
-Projeto desenvolvido para unir conhecimento em Medicina Veterinária com programação em Python, aplicando conceitos reais de nutrição animal em uma ferramenta prática para o agronegócio.
+Projeto desenvolvido para unir conhecimento em Medicina Veterinária com programação, aplicando conceitos reais de nutrição animal em uma ferramenta prática, acessível e open-source para o agronegócio.
 
-## ⚙️ Funcionalidades
+## 🌐 Demo
+Acesse a versão online: [calculadora-nutricao-bovina.onrender.com](https://calculadora-nutricao-bovina.onrender.com)
+![Demo](assets/videopreview.gif)
 
-- Histórico automático de cálculos salvo em CSV para consulta posterior
-- Consulta de histórico pelo menu principal
-- Possibilidade de cadastro de novos ingredientes no banco de ingredientes
-- Banco de ingredientes salvo em CSV com 5 ingredientes padrões
-- Seleção de categoria animal (bezerro, novilha, vaca em lactação, vaca seca, touro)
-- Cálculo da necessidade diária de matéria seca com base no peso vivo
-- Suporte a **1 ou 2 ingredientes** por cálculo
-- Balanceamento automático de proteína pelo **Quadrado de Pearson** quando dois ingredientes são combinados
-- Seleção automática do ingrediente mais econômico quando ambos atendem à exigência proteica
-- Fallback automático para o ingrediente mais proteico quando nenhum atende à exigência mínima
-- Estimativa de custo diário e mensal
-- Alerta quando a dieta não atinge a exigência proteica mínima da categoria
-- Registro de dados (data, categoria, peso, ingrediente 1, Kg ingrediente 1, ingrediente 2, Kg ingrediente 2, matéria seca/dia, custo diário, custo mensal e atende proteína) como nova linha no arquivo "arquivo.csv"
+## 🚀 Novidades da Versão Web
+
+O projeto agora possui uma interface gráfica no navegador. As principais atualizações incluem:
+
+* **Interface Web (HTML/CSS/JS):** Design responsivo e amigável para o usuário final.
+* **Backend em Flask:** Uma API RESTful que gerencia os cálculos e cadastros.
+* **Banco de Dados SQLite:** Substituição dos arquivos CSV por um banco de dados relacional utilizando SQLAlchemy (`calculadoranutricaobovina.db`).
+* **Comunicação Assíncrona:** O frontend se comunica com a API via `fetch`, garantindo uma experiência fluida sem recarregar a página.
+
+## ⚙️ Funcionalidades Principais (Lógica Nutricional)
+
+* Seleção de categoria animal (bezerro, novilha, vaca em lactação, vaca seca, touro).
+* Cálculo da necessidade diária de matéria seca com base no peso vivo.
+* Suporte a **1 ou 2 ingredientes** por cálculo.
+* Balanceamento automático de proteína pelo **Quadrado de Pearson** quando dois ingredientes são combinados.
+* Seleção automática do ingrediente mais econômico quando ambos atendem à exigência proteica.
+* Fallback automático para o ingrediente mais proteico quando nenhum atende à exigência mínima.
+* Estimativa de custo diário e mensal.
+* Alerta visual quando a dieta não atinge a exigência proteica mínima da categoria.
+* Histórico automático de cálculos para consulta posterior.
 
 ## 🐾 Categorias suportadas
 
@@ -54,25 +65,98 @@ Quando dois ingredientes são selecionados com proteínas em lados opostos da ex
       7% (silagem de milho)
 ```
 
-## 🚀 Como usar
+---
 
-**Pré-requisito:** Python 3.7 ou superior instalado.
+## 🛠️ Tecnologias Utilizadas
+
+### Backend & Lógica Matemática
+
+* Python 3
+* Flask & Flask-CORS (Criação da API e rotas Web)
+* Flask-SQLAlchemy (ORM para manipulação do banco de dados SQLite)
+* Pandas (utilizado na versão CLI)
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+* Fetch API (consumo do backend)
+
+---
+
+## 💻 Como Executar o Projeto
+
+O repositório conta com duas formas de uso: a **Interface Web** e a **Versão CLI (Terminal)**.
+
+### Pré-requisitos
+
+1. Clone o repositório:
 
 ```bash
-# Clone o repositório
 git clone https://github.com/dmrodrigues-dev/calculadora-nutricao-bovina.git
+```
 
-# Acesse a pasta
+2. Entre na pasta do projeto:
+
+```bash
 cd calculadora-nutricao-bovina
+```
 
-# Instale as bibliotecas do requirements.txt
+3. Crie e ative um ambiente virtual (opcional, mas recomendado).
+
+4. Instale as dependências:
+
+```bash
 pip install -r requirements.txt
+```
 
-# Execute o programa
+---
+
+## 🌐 Opção 1: Rodando a Aplicação Web (Flask)
+
+Para iniciar o servidor backend e acessar a interface gráfica:
+
+Execute o arquivo `app.py`:
+
+```bash
+python app.py
+```
+
+O servidor será iniciado localmente, geralmente em:
+
+```text
+http://localhost:5000
+```
+
+ou
+
+```text
+http://127.0.0.1:5000
+```
+
+Abra a aplicação no navegador e utilize a calculadora.
+
+> **Observação:** O arquivo `script.js` pode estar configurado para consumir uma API publicada. Para rodar localmente, altere as URLs no script.js de https://calculadora-nutricao-bovina.onrender.com para http://localhost:5000.
+
+---
+
+
+
+
+## 💻 Opção 2: Rodando a Versão CLI (Terminal)
+
+Caso prefira utilizar a ferramenta pela linha de comando (que salva os dados em arquivos `.csv` na pasta `cli/`):
+
+Execute:
+
+```bash
 python calculadora.py
 ```
 
-## 📋 Exemplo de uso
+Em seguida, siga as instruções exibidas no terminal.
+
+### 📋 Exemplo de uso
 
 ```
 =============================================
@@ -151,23 +235,23 @@ Arquivo criado em ingredientes.csv
 =============================================
 ```
 
-## 🛠️ Tecnologias
+---
 
-- Python 3
-- Biblioteca pandas
+## 📚 Referências Técnicas
 
-## 📚 Referências técnicas
-
-- Nutrient Requirements of Beef Cattle — NRC
-- Tabelas de exigências nutricionais para bovinos — Embrapa
-- Método do Quadrado de Pearson para balanceamento de rações
-
-## 👨‍💻 Autor
-
-**Davi Matos Rodrigues**  
-Estudante de Medicina Veterinária (UFPI) e ADS (Uninter)  
-[GitHub](https://github.com/dmrodrigues-dev) · [LinkedIn](https://www.linkedin.com/in/davi-matos-rodrigues-057430268/)
+* Nutrient Requirements of Beef Cattle — NRC
+* Tabelas de exigências nutricionais para bovinos — Embrapa
+* Método do Quadrado de Pearson para balanceamento de rações
 
 ---
 
-> Projeto em desenvolvimento — novas funcionalidades em breve.
+## 👨‍💻 Autor
+
+**Davi Matos Rodrigues**
+
+* Estudante de Análise e Desenvolvimento de Sistemas — Uninter
+
+### Contato
+
+* GitHub: https://github.com/dmrodrigues-dev
+* LinkedIn: https://www.linkedin.com/in/davi-matos-rodrigues-057430268/
