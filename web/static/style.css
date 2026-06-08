@@ -1,41 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 * {
     margin: 0 auto;
     padding: 0;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-image: url('images/bg.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
 }
 
 h1 {
-    background-color: rgb(25, 48, 25);
-    color: white;
+    color: rgb(255, 255, 255);
     text-align: center;
     align-content: center;
-    height: 70px;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 30px 0;
+    height: auto;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 table {
     margin: 20px auto;
-    background-color: rgba(25, 48, 25, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     border-spacing: 10px 10px;
     border-radius: 10px;
-    width: 1500px;
+    width: 100%;
+    max-width: 1500px;
 }
 
 th, td {
-    background-color: rgba(255, 255, 255, 0.5);
-    width: 110px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 8px;
     height: 30px;
     text-align: center;
 }
 
 #main-form {
     margin-top: 20px;
-    width: 1000px;
+    width: 90%;
+    max-width: 800px;
     border-radius: 10px;
-    background-color: rgba(25, 48, 25, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     text-align: center;
     padding: 20px;
 }
 
 #peso {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
     font-size: 20px;
     padding: 5px;
     margin-bottom: 20px;
@@ -54,6 +76,16 @@ label {
     width: 300px;
     height: 30px;
     font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.main-but:hover {
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .modal {
