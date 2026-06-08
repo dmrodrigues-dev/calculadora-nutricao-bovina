@@ -21,7 +21,7 @@ function calcular(event) {
     }
 
 
-    fetch("http://localhost:5000/calcular", {
+    fetch("https://calculadora-nutricao-bovina.onrender.com/calcular", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -61,7 +61,7 @@ function carregar_radios() {
     let div = document.getElementById('lista-categorias')
     div.innerHTML = ''
     
-    fetch("http://localhost:5000/categorias",{
+    fetch("https://calculadora-nutricao-bovina.onrender.com/categorias",{
         method: "GET",
         headers: {'Content-Type': 'application/json'}
     })
@@ -86,7 +86,7 @@ function carregar_checkboxes() {
     let div = document.getElementById('lista-ingredientes')
     div.innerHTML = ''
 
-    fetch("http://localhost:5000/ingredientes", {
+    fetch("https://calculadora-nutricao-bovina.onrender.com/ingredientes", {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
     })
@@ -125,7 +125,7 @@ function carregar_racoes() {
             <th>Atende PB</th>
         </tr>`
 
-    fetch("http://localhost:5000/racoes", {
+    fetch("https://calculadora-nutricao-bovina.onrender.com/racoes", {
         method: 'GET',
         headers: {'Content-Type': 'application/json'}
     })
@@ -167,7 +167,7 @@ function ingrediente() {
         return
     }
 
-    fetch("http://localhost:5000/ingrediente", {
+    fetch("https://calculadora-nutricao-bovina.onrender.com/ingrediente", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
